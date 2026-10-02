@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zebra 2 Web - Modular Synthesizer</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="zebra-vst">
+        <!-- TOP NAVIGATION BAR (Zebra 2 Header) -->
+        <header class="z-header">
+            <div class="z-nav-tabs">
+                <button class="z-tab">Perform</button>
+                <button class="z-tab active">Synthesis</button>
+                <button class="z-tab">Presets</button>
+                <button class="z-save-btn">Save</button>
+            </div>
+            
+            <div class="z-preset-display">
+                <button class="preset-arrow" id="prev-preset">&#9664;</button>
+                <span class="preset-title" id="preset-name">init Zebra2 Modular</span>
+                <button class="preset-arrow" id="next-preset">&#9654;</button>
+            </div>
+
+            <div class="z-meta">
+                <span class="z-voices" id="voices-readout">Poly: 0 / 16</span>
+                <button id="panic-btn" class="z-panic">PANIC</button>
+                <span class="z-brand">Zebra <span>2</span></span>
+            </div>
+        </header>
+
+        <!-- MAIN 3-COLUMN WORKSPACE -->
+        <div class="z-main-workspace">
+            
+            <!-- LEFT COLUMN: GENERATOR & FILTER MODULE RACK -->
+            <section class="z-column z-rack-col">
+                <div class="col-header">
+                    <span>GENERATOR & FILTER RACK</span>
+                    <div class="add-menu-wrap">
+                        <button class="btn-add" id="btn-add-module">+ ADD MODULE</button>
+                        <div class="dropdown-menu" id="add-dropdown">
+                            <div class="dropdown-item" data-type="osc">Oscillator (OSC)</div>
+                            <div class="dropdown-item" data-type="filter">Filter (VCF)</div>
+                            <div class="dropdown-item" data-type="noise">Noise Generator</div>
+                            <div class="dropdown-item" data-type="dist">Distortion / Saturation</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="z-module-container" id="module-rack">
+                    <!-- Dynamic Modules will be inserted here -->
+                </div>
+            </section>
+
+            <!-- CENTER COLUMN: THE ICONIC ZEBRA 2 ROUTING MATRIX -->
+            <section class="z-column z-matrix-col">
+                <div class="col-header">
+                    <span>SYNTHESIS MATRIX</span>
+                    <span class="matrix-hint">ACTIVE SIGNAL PATH</span>
+                </div>
+                <div class="z-matrix-board">
+                    <div class="matrix-grid-viewport">
+                        <div class="matrix-grid" id="matrix-grid">
+                            <!-- 4 Lane Vertical Matrix with green modules tags -->
+                            <div class="matrix-lane" id="lane-1"></div>
+                            <div class="matrix-lane" id="lane-2"></div>
+                            <div class="matrix-lane" id="lane-3"></div>
+                            <div class="matrix-lane" id="lane-4"></div>
+                        </div>
+                    </div>
+                    <!-- Mixer Section below Matrix -->
+                    <div class="matrix-mixer">
+                        <div class="mixer-ch">
+                            <span class="ch-lbl">L1 VOL</span>
+                            <input type="range" class="mini-dial" id="lane1-vol" min="0" max="1" step="0.05" value="0.8">
+                            <span class="ch-sub">MAIN</span>
+                        </div>
+                        <div class="mixer-ch">
+                            <span class="ch-lbl">L2 VOL</span>
+                            <input type="range" class="mini-dial" id="lane2-vol" min="0" max="1" step="0.05" value="0.6">
+                            <span class="ch-sub">BUS 2</span>
+                        </div>
+                        <div class="mixer-ch">
+                            <span class="ch-lbl">L3 VOL</span>
+                            <input type="range" class="mini-dial" id="lane3-vol" min="0" max="1" step="0.05" value="0.5">
+                            <span class="ch-sub">BUS 3</span>
+                        </div>
+                        <div class="mixer-ch">
+                            <span class="ch-lbl">L4 VOL</span>
+                            <input type="range" class="mini-dial" id="lane4-vol" min="0" max="1" step="0.05" value="0.5">
+                            <span class="ch-sub">BUS 4</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT COLUMN: MODULATOR RACK (ENVELOPES & LFOS) -->
+            <section class="z-column z-mod-col">
+                <div class="col-header">
+                    <span>MODULATORS</span>
+                    <button class="btn-add-small" id="btn-add-mod">+ MOD</button>
+                </div>
+                <div class="z-module-container" id="mod-rack">
+                    <!-- Standard Zebra 2 Envelope 1 & 2 + LFO -->
+                </div>
+            </section>
+        </div>
+
+        <!-- BOTTOM STRIP: GLOBAL FX & MASTER -->
+        <footer class="z-bottom-fx">
+            <div class="fx-section-header">
+                <span class="fx-tab active">Global / FX</span>
+                <span class="fx-tab">Delay & Reverb</span>
+                <span class="fx-tab">Equalizer</span>
+            </div>
+
+            <div class="fx-controls-grid">
+                <!-- MASTER / TUNE -->
+                <div class="fx-pod">
+                    <span class="pod-title">GLOBAL TUNE</span>
+                    <div class="pod-row">
+                        <div class="param">
+                            <label>MASTER VOL</label>
+                            <input type="range" id="master-vol" min="0" max="1" step="0.01" value="0.7" class="z-slider">
+                        </div>
+                        <div class="param">
+                            <label>GLIDE (PORTA)</label>
+                            <input type="range" id="glide-time" min="0" max="0.5" step="0.01" value="0.0" class="z-slider">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DELAY -->
+                <div class="fx-pod">
+                    <div class="pod-top-btn">
+                        <span class="pod-title">STEREO DELAY</span>
+                        <button class="pwr-btn on" id="pwr-del">ON</button>
+                    </div>
+                    <div class="pod-row">
+                        <div class="param"><label>TIME</label><input type="range" id="del-time" min="0.05" max="0.8" step="0.05" value="0.35" class="z-slider"></div>
+                        <div class="param"><label>FDBK</label><input type="range" id="del-fb" min="0" max="0.85" step="0.05" value="0.45" class="z-slider"></div>
+                        <div class="param"><label>MIX</label><input type="range" id="del-mix" min="0" max="1" step="0.05" value="0.25" class="z-slider"></div>
+                    </div>
+                </div>
+
+                <!-- REVERB -->
+                <div class="fx-pod">
+                    <div class="pod-top-btn">
+                        <span class="pod-title">CONVOLUTION REVERB</span>
+                        <button class="pwr-btn on" id="pwr-rev">ON</button>
+                    </div>
+                    <div class="pod-row">
+                        <div class="param"><label>SIZE</label><input type="range" id="rev-size" min="0.5" max="3.5" step="0.5" value="2.0" class="z-slider"></div>
+                        <div class="param"><label>DAMP</label><input type="range" id="rev-damp" min="500" max="10000" step="500" value="4500" class="z-slider"></div>
+                        <div class="param"><label>WET</label><input type="range" id="rev-mix" min="0" max="1" step="0.05" value="0.3" class="z-slider"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KEYBOARD -->
+            <div class="z-keyboard-zone">
+                <div id="piano-roll" class="piano-roll"></div>
+                <div class="keyboard-legend">Computer Keyboard Map: [Z-M] Lower Octave | [Q-I] Upper Octave</div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/synth.js"></script>
+</body>
+</html>

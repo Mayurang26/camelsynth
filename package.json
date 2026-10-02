@@ -1,0 +1,1 @@
+{"name":"zebra2-web","version":"2.0.0","dependencies":{"express":"^4.18.2"},"scripts":{"start":"node server.js"}}
